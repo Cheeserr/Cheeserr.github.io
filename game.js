@@ -41,7 +41,7 @@ class Balloon {
         this.x += this.vx
     }
 }
-
+let lost = false
 let health
 let balloons = []
 
@@ -106,7 +106,10 @@ function setup() {
 
 function draw() {
     //a nice sky blue background
-    background(135, 206, 235)
+    if(!lost)
+        background(135, 206, 235)
+    else 
+        background(255, 0, 0)
 
     for (let i = 0; i < balloons.length; i++) {
         fill(balloons[i].col)
@@ -121,13 +124,13 @@ function gameReset() {
     balloons.splice(0, balloons.length)
     document.getElementById("score").innerHTML = "0"
     document.getElementById("health").innerHTML = "3"
+    lost = false;
     spawner.stop()
     spawner.gameReset()
 }
 
 function lose() {
-    document.getElementById("score").innerHTML = "Jestes frajer"
+    lost = true
     spawner.stop()
     balloons.splice(0, balloons.length)
-    background(255, 0, 0)
 }
