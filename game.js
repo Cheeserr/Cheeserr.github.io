@@ -1,15 +1,15 @@
 // JavaScript source code
 class Balloon {
+
     constructor() {
-        this.x = random(width)
-        this.y = random(height)
-        this.r = 25
-        this.vx = 0
+        this.r = random(25, 80)
+        this.x = this.r
+        this.y = random(this.r/2, height - this.r/2)
+        this.vx = random(5, 10)
         this.vy = 0
 
         this.col = color(random(255), random(255), random(255))
-        this.popped = false
-
+        this.health = 1
     }
 
     blowAway() {
@@ -31,40 +31,103 @@ class Balloon {
     }
     checkBounds() {
         //make balloon wrap to the other side of the canvas    
-        if (this.x < 0) this.x = width
-        if (this.x > width) this.x = 0
-        if (this.y < 0) this.y = height
-        if (this.y > height) this.y = 0
+        if (this.x > width) {
+            updateHealth()
+            return true
+        }
     }
-    checkToPop() {
-        if (!this.popped && dist(this.x, this.y, mouseX, mouseY) < this.r) {
-            this.popped = true
+
+    move() {
+        this.x += this.vx
+    }
+}
+
+let health
+let balloons = []
+
+class Spawner {
+
+    constructor() {
+        this.spawnRate = 500
+        this.spawn = setInterval(this.spawnBalloon, this.spawnRate)
+    }
+
+    spawnBalloon() {
+        balloons[balloons.length] = new Balloon()
+    }
+
+    stop() {
+        clearInterval(this.spawn)
+    }
+
+    gameReset() {
+        this.spawn = setInterval(this.spawnBalloon, this.spawnRate)
+    }
+}
+
+let spawner
+
+function getMousePos() {
+    console.log("Working")
+    checkBalloonsToPop(mouseX, mouseY)
+}
+
+function checkBalloonsToPop(x, y) {
+    for (let i = 0; i < balloons.length; i++) {
+        if (dist(balloons[i].x, balloons[i].y, x, y) < balloons[i].r) {
+            balloons[i].col = color(156)
             let currScore = Number(document.getElementById("score").innerHTML)
             currScore++
             document.getElementById("score").innerHTML = currScore
-            this.col = color(156)
+            balloons.splice(i, 1)
+            break
         }
     }
 }
 
-let balloons = []
-const NUM_OF_BALLOONS = 25
+function updateHealth() {
+    let currHealth = Number(document.getElementById("health").innerHTML)
+    currHealth--
+    document.getElementById("health").innerHTML = currHealth
+    if (currHealth <= 0) lose()
+}
 
 function setup() {
-    let canvas = createCanvas(640, 480)
+    let canvas = createCanvas(1280, 720)
     canvas.parent("gameContainer")
-    for (let i = 0; i < NUM_OF_BALLOONS; i++) {
-        balloons[i] = new Balloon()
-    }
+    addEventListener("mousedown", getMousePos)
+
+    spawner = new Spawner()
+    health = 3
+    document.getElementById("health").innerHTML = health
 }
-function draw() {    //a nice sky blue background    
+
+
+
+function draw() {
+    //a nice sky blue background
     background(135, 206, 235)
 
-    for (let i = 0; i < NUM_OF_BALLOONS; i++) {
+    for (let i = 0; i < balloons.length; i++) {
         fill(balloons[i].col)
         circle(balloons[i].x, balloons[i].y, balloons[i].r)
-        balloons[i].blowAway()
-        balloons[i].checkBounds()
-        balloons[i].checkToPop()
+        balloons[i].move()
+        if (balloons[i].checkBounds()) balloons.splice(i, 1)
     }
+
+}
+
+function gameReset() {
+    balloons.splice(0, balloons.length)
+    document.getElementById("score").innerHTML = "0"
+    document.getElementById("health").innerHTML = "3"
+    spawner.stop()
+    spawner.gameReset()
+}
+
+function lose() {
+    document.getElementById("score").innerHTML = "Jestes frajer"
+    spawner.stop()
+    balloons.splice(0, balloons.length)
+    background(255, 0, 0)
 }
