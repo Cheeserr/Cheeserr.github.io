@@ -3,6 +3,7 @@ let lost = false
 let health
 let balloons = []
 let spawner
+let popSound = new Audio('pop.wav')
 
 class Balloon {
 
@@ -84,11 +85,11 @@ function getMousePos() {
 function checkBalloonsToPop(x, y) {
     for (let i = 0; i < balloons.length; i++) {
         if (dist(balloons[i].x, balloons[i].y, x, y) < balloons[i].r) {
-            balloons[i].col = color(156)
             let currScore = Number(document.getElementById("score").innerHTML)
             currScore++
             document.getElementById("score").innerHTML = currScore
             balloons.splice(i, 1)
+            popSound.play()
             break
         }
     }
