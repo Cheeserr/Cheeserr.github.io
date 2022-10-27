@@ -72,7 +72,7 @@ class Spawner {
 
     gameReset() {
         this.spawn = setInterval(this.spawnBalloon, this.spawnRate)
-        this.wiggleSpawn = setTimeout(this.spawnBalloonWiggle, random(500, 2500))
+        this.wiggleSpawn = setInteral(this.spawnBalloonWiggle, random(500, 2500))
     }
 }
 
