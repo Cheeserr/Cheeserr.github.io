@@ -1,75 +1,4 @@
-﻿body {
-}
-li{
-    color:dodgerblue;
-}
-*{
-    font-family: 'Comic Sans MS';
-    box-sizing: border-box;
-}
-
-.demo-class{
-    background-color: green;
-}
-
-.container{
-    width: 75%;
-    margin: auto;
-}
-
-section{
-    margin-left:16px;
-    margin-top:8px;
-    margin-right:32px;
-    margin-bottom:4px;
-    padding: 8px 16px 4px;
-}
-
-#myform {
-    background-color: grey;
-    color: blanchedalmond;
-    padding: 50px;
-    margin: 10px;
-}
-
-    #myform input[type = "text"] {
-        padding: 8px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        width: 100%
-    }
-    input[type = "submit"]{
-        padding:8px;
-        border:none;
-        background-color:darkblue;
-        color:whitesmoke;
-    }
-
-.flex-container {
-    display: flex;
-    width: 80vw;
-    justify-content: space-between;
-
-}
-
-.flex-container li{
-    list-style: none;
-}
-
-a{
-    text-decoration:none;
-   color:black;
-}
-
-a:hover{
-    text-decoration: underline;
-}
-
-a:active{
-    color:red;
-}
-
-.reset-button {
+﻿.reset-button {
     background-color: #222;
     border-radius: 4px;
     border-style: none;
@@ -81,9 +10,8 @@ a:active{
     font-size: 16px;
     font-weight: 700;
     line-height: 1.5;
-    margin: 0px 0px 0px 200px;
-    max-width: 720px;
-    min-height: 44px;
+    max-width: 500px;
+    min-height: 50px;
     min-width: 10px;
     outline: none;
     overflow: hidden;
